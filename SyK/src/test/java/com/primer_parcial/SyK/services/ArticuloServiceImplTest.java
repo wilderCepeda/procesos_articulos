@@ -1,11 +1,12 @@
 package com.primer_parcial.SyK.services;
 
-import com.primer_parcial.SyK.data.FactoryArticuloTestData;
-import com.primer_parcial.SyK.data.FactoryCtaegoriaTestData;
-import com.primer_parcial.SyK.models.Articulo;
-import com.primer_parcial.SyK.models.Categoria;
-import com.primer_parcial.SyK.repository.ArticuloRepository;
-import com.primer_parcial.SyK.repository.CategoriaRepository;
+import com.primer_parcial.SyK.data.FactoryMerchandiseTestData;
+import com.primer_parcial.SyK.data.FactoryCategoryTestData;
+import com.primer_parcial.SyK.data.FactoryMerchandiseTestData;
+import com.primer_parcial.SyK.models.MerchandiseModel;
+import com.primer_parcial.SyK.models.CategoryModel;
+import com.primer_parcial.SyK.repository.MerchandiseRepository;
+import com.primer_parcial.SyK.repository.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,106 +24,105 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class ArticuloServiceImplTest {
 
     @InjectMocks
-    private ArticuloServiceImpl articuloService;
+    private MerchandiseServiceImpl merchandiseService;
 
     @Mock
-    private ArticuloRepository articuloRepository;
+    private MerchandiseRepository merchandiseRepository;
 
     @Mock
-    private CategoriaRepository categoriaRepository;
+    private CategoryRepository categoryRepository;
 
     @DisplayName("Test para obtener articulos por codigo")
     @Test
-    void GetArticleByCodTest() {
+    void GetMerchandiseByCodTest() {
 
         //Given
-        Articulo articulo = FactoryArticuloTestData.mockArticulo();
+        MerchandiseModel merchandise = FactoryMerchandiseTestData.mockMerchandise();
 
         //When
-        when(articuloRepository.findByCodigo(anyString())).thenReturn(Optional.of(articulo));
-        ResponseEntity<Articulo> respuesta = articuloService.getArticleByCod(articulo.getCodigo());
+        when(merchandiseRepository.findByCode(anyString())).thenReturn(Optional.of(merchandise));
+        ResponseEntity<?> response = merchandiseService.getMerchandiseByCod(merchandise.getCode());
 
         //Then
-        Assertions.assertNotNull(respuesta);
+        Assertions.assertNotNull(response);
 
     }
 
     @DisplayName("Test para listar a los Articulos")
     @Test
-    void getAllArticlesTest() {
+    void getAllMerchandisesTest() {
 
         //Given
-        Articulo articulo = FactoryArticuloTestData.mockArticulo();
+        MerchandiseModel merchandise = FactoryMerchandiseTestData.mockMerchandise();
 
         //When
 
-        ResponseEntity<List<Articulo>> lista = articuloService.getAllArticles();
+        ResponseEntity<List<MerchandiseModel>> list = merchandiseService.getAllMerchandises();
 
         //Then
-        Assertions.assertNotNull(lista);
+        Assertions.assertNotNull(list);
     }
 
     @DisplayName("Test para crear Articulo")
     @Test
-    void createArticleTest() {
+    void createMerchandiseTest() {
         //Given
-        Articulo articulo = FactoryArticuloTestData.mockArticulo();
-        given(articuloRepository.findByCodigo(articulo.getCodigo())).willReturn(Optional.of(articulo));
-        given(articuloRepository.save(articulo)).willReturn(articulo);
+        MerchandiseModel merchandise = FactoryMerchandiseTestData.mockMerchandise();
+        given(merchandiseRepository.findByCode(merchandise.getCode())).willReturn(Optional.of(merchandise));
+        given(merchandiseRepository.save(merchandise)).willReturn(merchandise);
         //When
 
-        ResponseEntity<Articulo> articuloGuardado = articuloService.createArticle(articulo);
+        ResponseEntity<MerchandiseModel> merchandiseSaved = merchandiseService.createMerchandise(merchandise);
 
         //Then
-        Assertions.assertNotNull(articuloGuardado);
+        Assertions.assertNotNull(merchandiseSaved);
     }
 
     @DisplayName("Test para editar un Articulo")
     @Test
-    void editArticleTest() {
+    void editMerchandiseTest() {
         // Given
-        Articulo articulo = FactoryArticuloTestData.mockArticulo();
-        Articulo articuloMod = FactoryArticuloTestData.mockArticuloMod();
-        given(articuloRepository.findByCodigo(articulo.getCodigo())).willReturn(Optional.of(articulo));
-        given(articuloRepository.save(articuloMod)).willReturn(articuloMod);
+        MerchandiseModel merchandise = FactoryMerchandiseTestData.mockMerchandise();
+        MerchandiseModel merchandiseMod = FactoryMerchandiseTestData.mockMerchandiseMod();
+        given(merchandiseRepository.findByCode(merchandise.getCode())).willReturn(Optional.of(merchandise));
+        given(merchandiseRepository.save(merchandiseMod)).willReturn(merchandiseMod);
 
         //when
 
-        ResponseEntity<Articulo> articuloGuardado = articuloService.editArticle(articulo.getCodigo(), articuloMod);
+        ResponseEntity<MerchandiseModel> merchandiseSaved = merchandiseService
+                .editMerchandise(merchandise.getCode(), merchandiseMod);
 
         //Then
-        Assertions.assertNotNull(articuloGuardado);
+        Assertions.assertNotNull(merchandiseSaved);
     }
 
     @DisplayName("Test para eliminar un Articulo")
     @Test
     void deleteArticleTest() {
         //Given
-        Articulo articulo = FactoryArticuloTestData.mockArticulo();
+        MerchandiseModel merchandise = FactoryMerchandiseTestData.mockMerchandise();
 
-        given(articuloRepository.findByCodigo(articulo.getCodigo())).willReturn(Optional.of(articulo));
-        articuloRepository.deleteById(articulo.getId());
+        given(merchandiseRepository.findByCode(merchandise.getCode())).willReturn(Optional.of(merchandise));
+        merchandiseRepository.deleteById(merchandise.getId());
 
         //when
-        Optional<Articulo> elmArticulo = articuloRepository.findById(articulo.getId());
+        Optional<MerchandiseModel> elmMerchandise = merchandiseRepository.findById(merchandise.getId());
 
         //Then
-        assertThat(elmArticulo).isEmpty();
+        assertThat(elmMerchandise).isEmpty();
     }
 
     @Test
     @DisplayName("Test para una lista vacia")
-    void listaArticulosVacia() {
-        when(articuloRepository.findAll()).thenReturn(Collections.emptyList());
-        ResponseEntity mockArticleService = articuloService.getAllArticles();
+    void listVoidMerchandise() {
+        when(merchandiseRepository.findAll()).thenReturn(Collections.emptyList());
+        ResponseEntity<?> mockArticleService = merchandiseService.getAllMerchandises();
 
         Assertions.assertNotNull(mockArticleService);
         Assertions.assertEquals( 404, mockArticleService.getStatusCodeValue());
@@ -133,14 +131,14 @@ class ArticuloServiceImplTest {
     @DisplayName("Test para Cuando se retorna un bad request")
     @Test
     void createArticleReturnBadRequest() {
-        Articulo mockArticleModel = null;
-        Categoria mockCategoryModel = FactoryCtaegoriaTestData.mockCategoria();
+        MerchandiseModel mockMerchandiseModel = null;
+        CategoryModel mockCategoryModel = FactoryCategoryTestData.mockCategory();
 
-        when(categoriaRepository.findById(mockCategoryModel.getId())).thenReturn(Optional.empty());
-        when(articuloRepository.save(any(Articulo.class))).thenThrow(new NullPointerException());
+        when(categoryRepository.findById(mockCategoryModel.getId())).thenReturn(Optional.empty());
+        when(merchandiseRepository.save(any(MerchandiseModel.class))).thenThrow(new NullPointerException());
 
         Assertions.assertThrows(NullPointerException.class, () ->{
-            articuloService.createArticle(mockArticleModel);
+            merchandiseService.createMerchandise(mockMerchandiseModel);
         });
     }
 }

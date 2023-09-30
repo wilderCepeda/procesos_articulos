@@ -1,23 +1,27 @@
 package com.primer_parcial.SyK.controllers;
 
 import com.primer_parcial.SyK.models.UserModel;
+import com.primer_parcial.SyK.repository.UserRepository;
 import com.primer_parcial.SyK.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+
 @CrossOrigin(maxAge = 3600)
 @RestController
-public class AuthController {
+public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
-    @PostMapping(value = "auth/login")
-    public ResponseEntity login(@RequestBody UserModel user){
+    //--------------------------------------------Crear usuario--------------------------------------------
+    @PostMapping("/user")
+    public ResponseEntity<?> createUser(@RequestBody UserModel user){
 
-        return userService.login(user.getEmail(), user.getPassword());
+        return userService.createUser(user);
 
     }
-
-
 }

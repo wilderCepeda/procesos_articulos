@@ -1,41 +1,41 @@
 package com.primer_parcial.SyK.data;
 
-import com.primer_parcial.SyK.models.Articulo;
+import com.primer_parcial.SyK.models.MerchandiseModel;
 
 import java.util.Date;
 
 import static com.primer_parcial.SyK.data.FactoryCtaegoriaTestData.mockCategoria;
 
-public class FactoryArticuloTestData {
+public class FactoryMerchandiseTestData {
 
 
-    public static Articulo mockArticulo() {
-        Articulo modelo = new Articulo();
-        modelo.setId(1L);
-        modelo.setCodigo("123");
-        modelo.setNombre("Limpido");
-        modelo.setStock(2);
-        modelo.setCategoria(mockCategoria());
-        modelo.setDescripcion("HCL");
-        modelo.setPrecio_venta(2000F);
-        modelo.setPrecio_compra(5000F);
-        modelo.setFechaRegistro(new Date(10,10,20));
+    public static MerchandiseModel mockMerchandise() {
+        MerchandiseModel model = new MerchandiseModel();
+        model.setId(1L);
+        model.setCode("123");
+        model.setName("Limpido");
+        model.setStock(2);
+        model.setCategory(mockCategory());
+        model.setDescription("HCL");
+        model.setSale_price(2000F);
+        model.setPurchase_price(5000F);
+        model.setRegisterDate(new Date(10,10,20));
 
-        return modelo;
+        return model;
     }
-    public static Articulo mockArticuloMod() {
-        Articulo modelo = new Articulo();
-        modelo.setId(1L);
-        modelo.setCodigo("1");
-        modelo.setNombre("Lejia");
-        modelo.setStock(2);
-        modelo.setCategoria(mockCategoria());
-        modelo.setDescripcion("HCL");
-        modelo.setPrecio_venta(2000F);
-        modelo.setPrecio_compra(5000F);
-        modelo.setFechaRegistro(new Date(10,10,20));
+    public static MerchandiseModel mockMerchandiseMod() {
+        MerchandiseModel model = new MerchandiseModel();
+        model.setId(1L);
+        model.setCode("1");
+        model.setName("Lejia");
+        model.setStock(2);
+        model.setCategory(mockCategoria());
+        model.setDescription("HCL");
+        model.setSale_price(2000F);
+        model.setPurchase_price(5000F);
+        model.setRegisterDate(new Date(10,10,20));
 
-        return modelo;
+        return model;
     }
 
 }

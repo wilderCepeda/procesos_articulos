@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SyK/SyK.iml" filepath="$PROJECT_DIR$/SyK/SyK.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/primer_parcial_procesos.iml" filepath="$PROJECT_DIR$/.idea/primer_parcial_procesos.iml" />
     </modules>
   </component>
