@@ -31,7 +31,7 @@ public class MerchandiseController {
         if (jwtUtil.getKey(token)==null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error");
         }
-        return merchandiseService.getArticleByCod(code);
+        return merchandiseService.getMerchandiseByCod(code);
 
     }
 
@@ -48,7 +48,7 @@ public class MerchandiseController {
         if (jwtUtil.getKey(token) == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error");
         }
-        return merchandiseService.getAllArticles();
+        return merchandiseService.getAllMerchandises();
     }catch (Exception e){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error "+e.getMessage());
     }
@@ -63,7 +63,7 @@ public class MerchandiseController {
             if (jwtUtil.getKey(token) == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error");
             }
-            return merchandiseService.createArticle(merchandise);
+            return merchandiseService.createMerchandise(merchandise);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error "+e.getMessage());
         }
@@ -78,7 +78,7 @@ public class MerchandiseController {
             if (jwtUtil.getKey(token) == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error");
             }
-            return merchandiseService.editArticle(code, merchandise);
+            return merchandiseService.editMerchandise(code, merchandise);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error "+e.getMessage());
         }
@@ -93,7 +93,7 @@ public class MerchandiseController {
             if (jwtUtil.getKey(token) == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error");
             }
-            return merchandiseService.deleteArticle(code);
+            return merchandiseService.deleteMerchandise(code);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error "+e.getMessage());
         }

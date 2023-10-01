@@ -64,7 +64,7 @@ public class CategoryController {
             if (jwtUtil.getKey(token) == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error");
             }
-            return categoryService.getAllCategorias();
+            return categoryService.getAllCategories();
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token error "+e.getMessage());
         }
