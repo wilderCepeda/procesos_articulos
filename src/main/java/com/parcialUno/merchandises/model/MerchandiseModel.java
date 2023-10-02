@@ -10,8 +10,8 @@ import lombok.Data;
 @Entity
 public class MerchandiseModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    private Long idArticulo;
+    private String nombre;
     private String code;
     private String description;
     private String registerDate;

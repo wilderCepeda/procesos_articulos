@@ -10,10 +10,10 @@ import lombok.Data;
 @Entity
 public class UserModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idUser;
     private String firstName;
     private String lastName;
-    private String document;
+    private String dni;
     private String address;
     private String phone;
     private String email;

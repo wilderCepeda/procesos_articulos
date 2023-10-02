@@ -25,7 +25,7 @@ public class CategoryService {
         if(categoryDB.isEmpty()){
             return null;
         }
-        categoryDB.get().setName(categoryReq.getName());
+        categoryDB.get().setNombre(categoryReq.getNombre());
         categoryDB.get().setDescription(categoryReq.getDescription());
         return categoryRepository.save(categoryDB.get());
     }
