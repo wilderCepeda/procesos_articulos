@@ -35,4 +35,5 @@ public class CategoryController {
     public  ResponseEntity<List<CategoryModel>> getCategoryAll(){
         return ResponseEntity.ok(categoryService.getCategoryAll());
     }
+
 }
