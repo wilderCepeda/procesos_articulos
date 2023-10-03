@@ -10,7 +10,10 @@ import lombok.Data;
 @Entity
 public class CategoryModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCategoria;
+    private Long id;
     private String nombre;
-    private String description;
+
+
+
 }
+

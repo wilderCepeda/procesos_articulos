@@ -24,10 +24,7 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
-    @PutMapping("categories/{id}")
-    public ResponseEntity<CategoryModel> updateCategory(@RequestBody CategoryModel category, @PathVariable Long id){
-        return new ResponseEntity<>(categoryService.updateCategory(category, id), HttpStatus.OK);
-    }
+
 
     @DeleteMapping("categories/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id){
@@ -35,7 +32,7 @@ public class CategoryController {
     }
 
     @GetMapping("categories")
-    public  ResponseEntity<List<CategoryModel>> findAllCategories(){
-        return ResponseEntity.ok(categoryService.findAllCategories());
+    public  ResponseEntity<List<CategoryModel>> getCategoryAll(){
+        return ResponseEntity.ok(categoryService.getCategoryAll());
     }
 }

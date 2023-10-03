@@ -17,18 +17,9 @@ public class CategoryService {
         return categoryRepository.save(categoryReq);
     }
 
-    public CategoryModel getCategoryById(Long id){
-        return categoryRepository.findById(id).get();
+    public CategoryModel getCategoryById(Long id){return categoryRepository.findById(id).get();
     }
-    public CategoryModel updateCategory(CategoryModel categoryReq, Long id){
-        Optional<CategoryModel> categoryDB = categoryRepository.findById(id);
-        if(categoryDB.isEmpty()){
-            return null;
-        }
-        categoryDB.get().setNombre(categoryReq.getNombre());
-        categoryDB.get().setDescription(categoryReq.getDescription());
-        return categoryRepository.save(categoryDB.get());
-    }
+
 
     public boolean deleteCategory(Long id){
         Optional<CategoryModel> categoryDB = categoryRepository.findById(id);
@@ -39,7 +30,8 @@ public class CategoryService {
         return true;
     }
 
-    public List<CategoryModel> findAllCategories(){
+    public List<CategoryModel> getCategoryAll(){
         return (List<CategoryModel>) categoryRepository.findAll();
     }
+
 }
