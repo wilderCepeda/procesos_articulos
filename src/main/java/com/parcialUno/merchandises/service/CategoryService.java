@@ -1,37 +1,36 @@
 package com.parcialUno.merchandises.service;
 
 import com.parcialUno.merchandises.model.CategoryModel;
-import com.parcialUno.merchandises.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private static List<CategoryModel> categories = new ArrayList<>();
 
-    public CategoryModel createCategory(CategoryModel categoryReq){
-        return categoryRepository.save(categoryReq);
+    public CategoryModel getCategoryById(Long id) {
+        return categories.stream()
+                .filter(category -> category.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
-    public CategoryModel getCategoryById(Long id){return categoryRepository.findById(id).get();
+    public CategoryModel createCategory(CategoryModel category) {
+        category.setId((long) categories.size() + 1);
+        categories.add(category);
+        return category;
     }
 
-
-    public boolean deleteCategory(Long id){
-        Optional<CategoryModel> categoryDB = categoryRepository.findById(id);
-        if(categoryDB.isEmpty()){
-            return false;
+    public void deleteCategory(Long id) {
+        CategoryModel category = getCategoryById(id);
+        if (category!= null) {
+            categories.remove(category);
         }
-        categoryRepository.delete(categoryDB.get());
-        return true;
     }
 
-    public List<CategoryModel> getCategoryAll(){
-        return (List<CategoryModel>) categoryRepository.findAll();
+    public List<CategoryModel> getAllCategories() {
+        return categories;
     }
-
 }

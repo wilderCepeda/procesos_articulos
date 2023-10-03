@@ -21,19 +21,19 @@ public class CategoryController {
 
     @PostMapping("categories")
     public ResponseEntity<CategoryModel> createCategory(@RequestBody CategoryModel category){
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
+        CategoryModel createdCategory = categoryService.createCategory(category);
+        return ResponseEntity.ok(createdCategory);
     }
-
-
 
     @DeleteMapping("categories/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id){
-        return new ResponseEntity(categoryService.deleteCategory(id), HttpStatus.NO_CONTENT);
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("categories")
-    public  ResponseEntity<List<CategoryModel>> getCategoryAll(){
-        return ResponseEntity.ok(categoryService.getCategoryAll());
+    public ResponseEntity<List<CategoryModel>> getAllCategories(){
+        List<CategoryModel> categories = categoryService.getAllCategories();
+        return ResponseEntity.ok(categories);
     }
-
 }
