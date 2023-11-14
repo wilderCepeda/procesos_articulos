@@ -3,9 +3,11 @@ package com.parcialUno.merchandises.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parcialUno.merchandises.filter.JwtRequestFilter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -38,7 +40,7 @@ public class SecurityConfig {
             "/user/reset_password",
     };
 
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, JwtRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
@@ -56,9 +58,6 @@ public class SecurityConfig {
             }
         };
     }
-
-    ;
-
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -68,10 +67,7 @@ public class SecurityConfig {
             }
         };
     }
-
-    ;
     private final JwtRequestFilter jwtRequestFilter;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests().requestMatchers(ROUTES_ALLOWED_WITHOUT_AUTHENTICATION).permitAll()
@@ -92,5 +88,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }
