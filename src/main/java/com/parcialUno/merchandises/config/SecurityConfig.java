@@ -1,28 +1,30 @@
 package com.parcialUno.merchandises.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parcialUno.merchandises.filter.JwtRequestFilter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Deprecated
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     private final String[] ROUTES_ALLOWED_WITHOUT_AUTHENTICATION = {
     };
@@ -36,44 +38,59 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/reset_password",
     };
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
-    private final JwtRequestFilter jwtRequestFilter;
-
-    public SecurityConfig(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, JwtRequestFilter jwtRequestFilter) {
-        this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-    }
-
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(ROUTES_ALLOWED_WITHOUT_AUTHENTICATION).permitAll()
-                .antMatchers(HttpMethod.GET, ROUTES_GET_ALLOWED_WITHOUT_AUTHENTICATION).permitAll()
-                .antMatchers(HttpMethod.POST, ROUTES_POST_ALLOWED_WITHOUT_AUTHENTICATION).permitAll()
-                .anyRequest().authenticated()
-                .and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-                    Map<String, Object> responseMap = new HashMap<>();
-                    ObjectMapper mapper = new ObjectMapper();
-                    response.setStatus(401);
-                    responseMap.put("message", "Acceso no autorizado");
-                    response.setHeader("Content-Type", "application/json");
-                    String responseMsg = mapper.writeValueAsString(responseMap);
-                    response.getWriter().write(responseMsg);
-                })
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public PasswordEncoder passwordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return null;
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return false;
+            }
+        };
     }
+
+    ;
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                return null;
+            }
+        };
+    }
+
+    ;
+    private final JwtRequestFilter jwtRequestFilter;
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests().requestMatchers(ROUTES_ALLOWED_WITHOUT_AUTHENTICATION).permitAll()
+                .requestMatchers(HttpMethod.GET, ROUTES_GET_ALLOWED_WITHOUT_AUTHENTICATION).permitAll()
+                .requestMatchers(HttpMethod.POST, ROUTES_POST_ALLOWED_WITHOUT_AUTHENTICATION).permitAll()
+                .anyRequest().authenticated()
+                .and().exceptionHandling(exception -> exception.authenticationEntryPoint((request, response, authException) -> {
+                            Map<String, Object> responseMap = new HashMap<>();
+                            ObjectMapper mapper = new ObjectMapper();
+                            response.setStatus(401);
+                            responseMap.put("message", "Acceso no autorizado");
+                            response.setHeader("Content-Type", "application/json");
+                            String responseMsg = mapper.writeValueAsString(responseMap);
+                            response.getWriter().write(responseMsg);
+                        })).sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));//headers().frameOptions().sameOrigin();
+
+        return http.build();
+    }
+
 }
