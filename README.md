@@ -1,2 +1,2 @@
-# procesos_articulos
-1 parcial de proceso de negocios
+# demo
+repositorio para primer parcial de procesos del negocio
