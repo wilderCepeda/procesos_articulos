@@ -1,0 +1,166 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Dashboard - Tienda UFPSO</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <style>
+          .navbar, .table{
+            background-color: #234b95;
+          }
+          .btn-logout {
+            outline: 2px solid white;
+          }
+          .btn-logout-danger {
+            background-color: transparent;
+            border-color: white;
+            outline: 2px solid transparent;
+          }
+
+          .btn-logout-danger:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-color: #ff0000;
+            outline: 2px solid red;
+          }
+
+          
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Tienda</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="dashboard.html">Inicio</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="./usuarios.html" onclick="listar()">Usuarios</a>
+                  </li>                
+                </ul>
+              </div>
+              <a class="nav-link btn text-white btn-logout btn-logout-danger" href="#" onclick="salir()">Cerrar Sesión</a>
+            </div>
+          </nav>
+
+          <div class="container-fluid">
+            <div class="card">
+                <div class="container py-3">
+                  <a href="#" onclick="createArticleForm()" class="btn btn-outline-success"><i class="fa-solid fa-plus"></i> Crear articulo</a>
+      
+                  <br>
+                  <br>
+                  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" id="listarArticle">
+                  </div>
+              </div>
+                <div class="card-body">
+                  
+                  <div id="datos"></div>
+
+                  
+                
+                    <tbody id="listar">
+
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
+
+          
+          <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <div id="datos"></div>
+        
+                    <a href="#" onclick="createCategoryForm()" class="btn btn-outline-success">
+                      <i class="fa-solid fa-plus"></i> Crear categoría
+                    </a>
+                  
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm text-white">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listarCategory">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal categoria-->
+        <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestión de Categorias</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="contentModalCategory">
+                ...
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="modalArticulo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestión de Articulos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="contentModalArticle">
+                ...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal confirmacion eliminar-->
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">¿Estás seguro de que deseas eliminar esta categoría?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmarEliminar">Sí</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+        
+      </body>
+      <script src="js/util.js"></script>
+      <script src="js/auth_service.js"></script>
+      <script src="js/user_crud.js"></script>
+      <script src="js/category_crud.js"></script>
+      <script src="js/article_crud.js"></script>
+      <script src="app.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      <script>
+        listar();
+        listarCategory();
+        listarArticle();
+      </script>
+</html>
