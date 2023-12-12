@@ -36,8 +36,10 @@ public class ArticuloController {
 
     // enpoint PUT para "actualizar por ID"
     @PutMapping("articulos/{id}")
-    public ResponseEntity<Articulo> update(@Valid @RequestBody Articulo articulo,@PathVariable Long id){
-        return new ResponseEntity<>(articuloService.updateArticulo(articulo,id),HttpStatus.OK);
+    public ResponseEntity<Articulo> update(@Valid @RequestBody Articulo articulo,
+                                           @PathVariable Long id,
+                                           @RequestParam Long idCategory){
+        return new ResponseEntity<>(articuloService.updateArticulo(articulo,id, idCategory),HttpStatus.OK);
     }
 
     // enpoint GET para "obtener la lista completa de articulos"

@@ -26,11 +26,11 @@ public class Articulo {
     @Min(value= 0, message = "stock >= 0")
     private int stock;
 
+    /*@Lob
+    @Column(name = "images", columnDefinition = "BLOB")
+    private byte[] image;*/
+
     @ManyToOne()
     @JoinColumn(name = "id_category", referencedColumnName = "idCategory")
     private Categoria categoria;
-
-    /*@JsonIgnore //Cuando genere una respuesta, ignore lo siguiente
-    @OneToMany(mappedBy = "articulo")
-    List<Categoria> categoriaList;*/
 }

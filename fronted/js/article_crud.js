@@ -21,7 +21,7 @@ function listarArticle() {
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 rounded-3 shadow-sm">
                         <center>
-                            <img src="./img/arroz.png" style="height: 150px; width: 150px;" class="card-img-top" alt="${articulo.name}">
+                            <img src="./img/img1.jpg" style="height: 150px; width: 150px;" class="card-img-top" alt="${articulo.name}">
                         </center>
                         <div class="card-body">
                             <h5 class="card-title">
@@ -120,7 +120,8 @@ async function modificarArticle(id){
     for(var [k, v] of formData){
         jsonData[k] = v;
     }
-    const request = await fetch(urlApiArticle+"/"+id, {
+    const idCategory = document.getElementById("idCategory").value;
+    const request = await fetch(urlApiArticle+"/"+id+ "?idCategory=" + idCategory, {
         method: 'PUT',
         headers:headersArticle,
         body: JSON.stringify(jsonData)

@@ -54,7 +54,7 @@ public class ArticuloService {
     }
 
     // metodo para actualizar articulos
-    public Articulo updateArticulo(Articulo articuloReq, Long id){
+    public Articulo updateArticulo(Articulo articuloReq, Long id, Long idCategory){
         Optional<Articulo> articuloBd=articuloRepository.findById(id);
         if(articuloBd.isEmpty()){
             throw new NotFoundException(Constants.ARTICLE_NOT_FOUND.getMessage());
@@ -63,7 +63,10 @@ public class ArticuloService {
         articuloBd.get().setPrice(articuloReq.getPrice());
         articuloBd.get().setDescription(articuloReq.getDescription());
         articuloBd.get().setStock(articuloReq.getStock());
-        
+
+        Categoria newCategory = categoriaService.getCategoriaById(idCategory);
+        articuloBd.get().setCategoria(newCategory);
+
         return articuloRepository.save(articuloBd.get());
 
     }
