@@ -21,7 +21,7 @@ function listarArticle() {
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 rounded-3 shadow-sm">
                         <center>
-                            <img src="./img/cel.png" style="height: 150px; width: 150px;" class="card-img-top" alt="${articulo.name}">
+                            <img src="./img/arroz.png" style="height: 150px; width: 150px;" class="card-img-top" alt="${articulo.name}">
                         </center>
                         <div class="card-body">
                             <h5 class="card-title">
