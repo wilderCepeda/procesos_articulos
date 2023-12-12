@@ -188,10 +188,10 @@ async function createArticle(){
     var jsonData = {};
 
     //Agregamos la imagen al formulario
-    const imageInput = document.getElementById("image");
+    /*const imageInput = document.getElementById("image");
     if (imageInput.files.length > 0) {
         formData.append("image", imageInput.files[0]);
-    }
+    }*/
 
     for (var [k, v] of formData) {
         jsonData[k] = v;
@@ -199,7 +199,7 @@ async function createArticle(){
     const request = await fetch(urlApiArticle + "/" + idCategory, {
         method: 'POST',
         headers: headersArticle,
-        body: formData//JSON.stringify(jsonData)
+        body: JSON.stringify(jsonData)
     });
     if(request.ok){
         alertas("Articulo Creado", 1);
